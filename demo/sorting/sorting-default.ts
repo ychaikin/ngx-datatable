@@ -24,13 +24,13 @@ import { Component, OnInit } from '@angular/core';
 
         <ngx-datatable-column name="Company">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{row.row.company}}
+            {{row.company}}
           </ng-template>
         </ngx-datatable-column>
 
         <ngx-datatable-column name="Name">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{row.row.name}}
+            {{row.name}}
           </ng-template>
         </ngx-datatable-column>
 

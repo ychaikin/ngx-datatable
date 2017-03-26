@@ -32,7 +32,7 @@ import { RowMeta } from "../../src/types/row-meta";
           <ng-template let-row="row" ngx-datatable-row-detail-template>
             <div style="padding-left:35px;">
               <div><strong>Address</strong></div>
-              <div>{{row.row.address.city}}, {{row.row.address.state}}</div>
+              <div>{{row.address.city}}, {{row.address.state}}</div>
             </div>
           </ng-template>
         </ngx-datatable-row-detail>
@@ -55,13 +55,13 @@ import { RowMeta } from "../../src/types/row-meta";
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Index" width="80">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <strong>{{row.rowIndex}}</strong>
+          <ng-template let-row="row" let-meta="meta" ngx-datatable-cell-template>
+            <strong>{{meta.rowIndex}}</strong>
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Exapanded" width="80">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <strong>{{row.rowIndex === 1}}</strong>
+          <ng-template let-row="row" let-meta="meta" ngx-datatable-cell-template>
+            <strong>{{meta.rowIndex === 1}}</strong>
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Name" width="200">
@@ -71,7 +71,7 @@ import { RowMeta } from "../../src/types/row-meta";
         </ngx-datatable-column>
         <ngx-datatable-column name="Gender" width="300">
           <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            <i [innerHTML]="row.row['name']"></i> and <i>{{value}}</i>
+            <i [innerHTML]="row['name']"></i> and <i>{{value}}</i>
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Age" ></ngx-datatable-column>

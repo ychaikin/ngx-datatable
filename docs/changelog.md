@@ -1,5 +1,19 @@
 # Changelog
 
+## 8.0.0
+- BREAKING: Removed mutations of rows (#623)
+- Perf: Skip redudant logical expressions on iterations
+- Perf: Search rows only if not found
+
+#### Internals
+The mutations of `$$index` and `$$expanded` to the rows has been moved
+to a [row meta object](https://github.com/swimlane/ngx-datatable/blob/master/src/types/row-meta.ts). 
+
+- `$$index` was renamed to `rowIndex`
+- `$$expanded` was renmaed to `expanded`
+- `rowContextmenu` emits the row metadata object now 
+- Detail row toggle emits the row metadata object now
+
 ## 7.1.0
 - Bug: Fix title not set on cell template (#629)
 - Chore: Update to official Angular4
