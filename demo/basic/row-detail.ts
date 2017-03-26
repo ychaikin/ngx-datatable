@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
+import { RowMeta } from "../../src/types/row-meta";
 
 @Component({
   selector: 'row-details-demo',
@@ -46,21 +47,21 @@ import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
           <ng-template let-row="row" ngx-datatable-cell-template>
             <a
               href="#"
-              [class.icon-right]="!row.$$expanded"
-              [class.icon-down]="row.$$expanded"
+              [class.icon-right]="!row.expanded"
+              [class.icon-down]="row.expanded"
               title="Expand/Collapse Row"
               (click)="toggleExpandRow(row)">
             </a>
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Index" width="80">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <strong>{{row.$$index}}</strong>
+          <ng-template let-row="row" let-meta="meta" ngx-datatable-cell-template>
+            <strong>{{meta.rowIndex}}</strong>
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Exapanded" width="80">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <strong>{{row.$$expanded === 1}}</strong>
+          <ng-template let-row="row" let-meta="meta" ngx-datatable-cell-template>
+            <strong>{{meta.rowIndex === 1}}</strong>
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Name" width="200">
@@ -112,7 +113,7 @@ export class RowDetailsComponent {
     req.send();
   }
 
-  toggleExpandRow(row) {
+  toggleExpandRow(row: RowMeta) {
     console.log('Toggled Expand Row!', row);
     this.table.rowDetail.toggleExpandRow(row);
   }
