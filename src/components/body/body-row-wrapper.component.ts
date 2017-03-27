@@ -29,10 +29,10 @@ export class DataTableRowWrapperComponent {
   @Input() expanded: boolean = false;
   @Input() row: RowMeta;
   
-  @Output() rowContextmenu = new EventEmitter<{event: MouseEvent, row: RowMeta}>(false);
+  @Output() rowContextmenu = new EventEmitter<{event: MouseEvent, row: any}>(false);
 
   @HostListener('contextmenu', ['$event'])
   onContextmenu($event: MouseEvent): void {
-    this.rowContextmenu.emit({ event: $event, row: this.row });
+    this.rowContextmenu.emit({ event: $event, row: this.row.row });
   }
 }
