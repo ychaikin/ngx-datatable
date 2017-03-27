@@ -96,15 +96,15 @@ export class DataTableBodyRowComponent {
     this.element = element.nativeElement;
   }
 
-  trackByGroups(index: number, colGroup: any): any {
+  trackByGroups(index: number, colGroup: any): string {
     return colGroup.type;
   }
 
-  columnTrackingFn(index: number, column: any): any {
+  columnTrackingFn(index: number, column: any): string {
     return column.$$id;
   }
 
-  stylesByGroup(group: string) {
+  stylesByGroup(group: string): any {
     const widths = this.columnGroupWidths;
     const offsetX = this.offsetX;
 
@@ -125,7 +125,7 @@ export class DataTableBodyRowComponent {
     return styles;
   }
 
-  onActivate(event: any, index: number) {
+  onActivate(event: any, index: number): void {
     event.cellIndex = index;
     event.rowElement = this.element;
     this.activate.emit(event);
