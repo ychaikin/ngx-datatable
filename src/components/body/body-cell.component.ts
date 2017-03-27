@@ -1,6 +1,7 @@
 import {
-  Component, Input, PipeTransform, HostBinding, 
-  Output, EventEmitter, HostListener, ElementRef
+  Component, Input, PipeTransform, HostBinding,
+  Output, EventEmitter, HostListener, ElementRef,
+  OnDestroy, ViewChild, ViewContainerRef
 } from '@angular/core';
 
 import { deepValueGetter, Keys } from '../../utils';
@@ -11,12 +12,12 @@ import { SortDirection, RowMeta } from '../../types';
   template: `
     <div class="datatable-body-cell-label">
       <label
-        *ngIf="column.checkboxable" 
+        *ngIf="column.checkboxable"
         class="datatable-checkbox">
-        <input 
+        <input
           type="checkbox"
           [checked]="isSelected"
-          (click)="onCheckboxChange($event)" 
+          (click)="onCheckboxChange($event)"
         />
       </label>
       <span
@@ -25,6 +26,7 @@ import { SortDirection, RowMeta } from '../../types';
         [innerHTML]="value">
       </span>
       <ng-template
+        #cellTemplate
         *ngIf="column.cellTemplate"
         [ngTemplateOutlet]="column.cellTemplate"
         [ngOutletContext]="{ value: value, row: row.row, meta: row, column: column }">
@@ -35,12 +37,14 @@ import { SortDirection, RowMeta } from '../../types';
     class: 'datatable-body-cell'
   }
 })
-export class DataTableBodyCellComponent {
+export class DataTableBodyCellComponent implements OnDestroy {
 
   @Input() row: RowMeta;
   @Input() column: any;
   @Input() rowHeight: number;
   @Input() isSelected: boolean;
+
+  @ViewChild('cellTemplate', { read: ViewContainerRef }) cellTemplate: ViewContainerRef;
 
   @Input() set sorts(val: any[]) {
     this._sorts = val;
@@ -52,7 +56,7 @@ export class DataTableBodyCellComponent {
   }
 
   @Output() activate: EventEmitter<any> = new EventEmitter();
-   
+
   @HostBinding('class')
   get columnCssClasses(): any {
     let cls = 'datatable-body-cell';
@@ -106,6 +110,12 @@ export class DataTableBodyCellComponent {
 
   constructor(element: ElementRef) {
     this.element = element.nativeElement;
+  }
+
+  ngOnDestroy() {
+    if (this.cellTemplate) {
+      this.cellTemplate.clear();
+    }
   }
 
   @HostListener('focus')
