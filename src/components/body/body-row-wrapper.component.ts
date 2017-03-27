@@ -8,13 +8,13 @@ import { RowMeta } from '../../types';
   template: `
     <ng-content></ng-content>
     <div 
-      *ngIf="expanded"
+      *ngIf="row.expanded === 1"
       [style.height.px]="detailRowHeight" 
       class="datatable-row-detail">
       <ng-template
         *ngIf="rowDetail && rowDetail.template"
         [ngTemplateOutlet]="rowDetail.template"
-        [ngOutletContext]="{ row: row }">
+        [ngOutletContext]="{ row: row.row, meta: row }">
       </ng-template>
     </div>
   `,
@@ -26,7 +26,6 @@ export class DataTableRowWrapperComponent {
 
   @Input() rowDetail: any;
   @Input() detailRowHeight: any;
-  @Input() expanded: boolean = false;
   @Input() row: RowMeta;
   
   @Output() rowContextmenu = new EventEmitter<{event: MouseEvent, row: any}>(false);

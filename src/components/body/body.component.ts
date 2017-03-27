@@ -34,7 +34,6 @@ import { ScrollerComponent } from './scroller.component';
           [rowDetail]="rowDetail"
           [detailRowHeight]="detailRowHeight"
           [row]="row"
-          [expanded]="row.expanded === 1"
           (rowContextmenu)="rowContextmenu.emit($event)">
           <datatable-body-row
             tabindex="-1"
@@ -481,21 +480,28 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
    * 
    * @memberOf DataTableBodyComponent
    */
-  toggleRowExpansion(row: RowMeta): void {
+  toggleRowExpansion(row: object): void {
     // Capture the row index of the first row that is visible on the viewport.
     const viewPortFirstRowIndex = this.getAdjustedViewPortIndex();
 
+    // find the row meta for the given row
+    const rowId = this.rowIdentity(row);
+    const meta = this._rowsMeta.find((r) => {
+      const id = this.rowIdentity(r.row);
+      return id === rowId;
+    });
+
     // If the detailRowHeight is auto --> only in case of non-virtualized scroll
     if(this.scrollbarV) {
-      const detailRowHeight = this.detailRowHeight * (row.expanded ? -1 : 1);
-      this.rowHeightsCache.update(row.rowIndex, detailRowHeight);
+      const detailRowHeight = this.detailRowHeight * (meta.expanded ? -1 : 1);
+      this.rowHeightsCache.update(meta.rowIndex, detailRowHeight);
     }
 
     // Update the toggled row and update the heights in the cache.
-    row.expanded ^= 1;
+    meta.expanded ^= 1;
 
     this.detailToggle.emit({
-      rows: [row.row],
+      rows: [meta.row],
       currentIndex: viewPortFirstRowIndex
     });
   }
@@ -513,8 +519,8 @@ export class DataTableBodyComponent implements OnInit, OnDestroy {
     // Capture the row index of the first row that is visible on the viewport.
     const viewPortFirstRowIndex = this.getAdjustedViewPortIndex();
 
-    for(const row of this.rows) {
-      row.expanded = rowExpanded;
+    for(const row of this._rowsMeta) {
+      if(row) row.expanded = rowExpanded;
     }
 
     if(this.scrollbarV) {

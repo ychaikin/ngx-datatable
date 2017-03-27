@@ -155,7 +155,7 @@ export class DataTableSelectionComponent {
   getRowSelectedIdx(row: RowMeta, selected: any[]): number {
     if(!selected || !selected.length) return -1;
 
-    const rowId = this.rowIdentity(row.row); // TODO: Breaking change - send RowMeta
+    const rowId = this.rowIdentity(row.row);
     return selected.findIndex((r) => {
       const id = this.rowIdentity(r);
       return id === rowId;

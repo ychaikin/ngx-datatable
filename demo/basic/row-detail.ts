@@ -44,11 +44,11 @@ import { RowMeta } from "../../src/types/row-meta";
           [sortable]="false"
           [draggable]="false"
           [canAutoResize]="false">
-          <ng-template let-row="row" ngx-datatable-cell-template>
+          <ng-template let-row="row" let-meta="meta" ngx-datatable-cell-template>
             <a
               href="#"
-              [class.icon-right]="!row.expanded"
-              [class.icon-down]="row.expanded"
+              [class.icon-right]="meta.expanded !== 1"
+              [class.icon-down]="meta.expanded === 1"
               title="Expand/Collapse Row"
               (click)="toggleExpandRow(row)">
             </a>
@@ -95,14 +95,14 @@ export class RowDetailsComponent {
     });
   }
 
-  onPage(event) {
+  onPage(event): void {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
       console.log('paged!', event);
     }, 100);
   }
 
-  fetch(cb) {
+  fetch(cb): void  {
     const req = new XMLHttpRequest();
     req.open('GET', `assets/data/100k.json`);
 
@@ -113,12 +113,12 @@ export class RowDetailsComponent {
     req.send();
   }
 
-  toggleExpandRow(row: RowMeta) {
+  toggleExpandRow(row: object): void  {
     console.log('Toggled Expand Row!', row);
     this.table.rowDetail.toggleExpandRow(row);
   }
 
-  onDetailToggle(event) {
+  onDetailToggle(event): void  {
     console.log('Detail Toggled', event);
   }
 

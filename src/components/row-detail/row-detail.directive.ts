@@ -24,14 +24,14 @@ export class DatatableRowDetailDirective {
    * @type {EventEmitter<any>}
    * @memberOf DatatableComponent
    */
-  @Output() toggle: EventEmitter<{type: 'row' | 'all', value: RowMeta | boolean}> = new EventEmitter();
+  @Output() toggle: EventEmitter<{ type: 'row' | 'all', value: object | boolean }> = new EventEmitter();
 
   /**
    * Toggle the expansion of the row
    *
    * @param rowIndex
    */
-  toggleExpandRow(row: RowMeta): void {
+  toggleExpandRow(row: object): void {
     this.toggle.emit({
       type: 'row',
       value: row
